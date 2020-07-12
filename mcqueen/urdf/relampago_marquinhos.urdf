@@ -1,0 +1,496 @@
+<?xml version="1.0"?>
+
+	<robot name="relampago_marquinhos" >
+
+	<!-- ######################### Geometria ################################ -->
+	<!-- Base do corpo -->
+	<link name="base_link">
+		<visual>
+			<geometry>
+				<box size="0.6 0.3 0.1"/>
+			</geometry>
+			<material name="red">
+				<color rgba="1 0.0 0.0 1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.6 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+	<!-- Cabeca -->
+	<link name="cabeca_link">
+		<visual>
+			<geometry>
+				<box size="0.3 0.3 0.1"/>
+			</geometry>
+			<material name="red">
+				<color rgba="1 0.0 0.0 1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.3 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.00083" ixy="0.0" ixz= "0.0" iyy="0.00083" iyz="0.0" izz="0.000167"/>
+		</inertial>
+	</link>
+
+	<!-- Junta entre a parte superior e a base -->
+	<joint name="cabeca_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="cabeca_link"/>
+		<origin xyz="0.0 0.0 0.1" rpy="0.0 0.0 -1.5708"/>
+	</joint>
+
+	<!-- Spoiler -->
+	<link name="spoiler_link">
+		<visual>
+			<geometry>
+				<box size="0.025 0.3 0.1"/>
+			</geometry>
+			<material name="spoiler">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/spoiler.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.025 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.00083" ixy="0.0" ixz= "0.0" iyy="0.00083" iyz="0.0" izz="0.000167"/>
+		</inertial>
+	</link>
+
+	<!-- Junta entre o spoiler traseiro e a base -->
+	<joint name="spoiler_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="spoiler_link"/>
+		<origin xyz="-0.285 0.0 0.1" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Parte frontal -->
+	<link name="frontal">
+		<visual>
+			<geometry>
+				<box size="0.1 0.1 0.1"/>
+			</geometry>
+			<material name="green">
+				<color rgba="0.0 0.1 0.0 0.1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.1 0.1 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.00083" ixy="0.0" ixz= "0.0" iyy="0.00083" iyz="0.0" izz="0.000167"/>
+		</inertial>
+	</link>
+
+	<!-- Junta entre a parte frontal e a base -->
+	<joint name="frontal_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="frontal"/>
+		<origin xyz="0.3 0.0 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Rodas da frente -->
+	<link name="roda_frontal_dir">
+		<visual>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+
+			<material name="black">
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="5.1458e-5" ixy="0.0" ixz= "0.0" iyy="5.1458e-5" iyz="0.0" izz="6.125e-5"/>
+		</inertial>
+	</link>
+
+	<joint name="roda_frontal_dir_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="frontal"/>
+		<child link="roda_frontal_dir"/>
+		<origin xyz="0.0 0.14 -0.05" rpy="-1.5708 0.0 0.0"/>
+	</joint>
+
+	<link name="roda_frontal_esq">
+		<visual>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+
+			<material name="black">
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="5.1458e-5" ixy="0.0" ixz= "0.0" iyy="5.1458e-5" iyz="0.0" izz="6.125e-5"/>
+		</inertial>
+	</link>
+
+	<joint name="roda_frontal_esq_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="frontal"/>
+		<child link="roda_frontal_esq"/>
+		<origin xyz="0.0 -0.14 -0.05" rpy="-1.5708 0.0 0.0"/>
+	</joint>
+
+	<!-- Rodas traseiras -->
+	<!-- Direita -->
+	<link name="roda_direita">
+		<visual>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+
+			<material name="black">
+				<color rgba="0.0 0.0 0.0 1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="5.1458e-5" ixy="0.0" ixz= "0.0" iyy="5.1458e-5" iyz="0.0" izz="6.125e-5"/>
+		</inertial>
+	</link>
+
+	<joint name="roda_direita_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="roda_direita"/>
+		<origin xyz="-0.2825 -0.125 -0.05" rpy="-1.5708 0.0 0.0"/>
+	</joint>
+
+	<!-- Esquerda -->
+	<link name="roda_esquerda">
+		<visual>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+
+			<material name="black">
+				<color rgba="0.0 0.0 0.0 1"/>
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder radius="0.035" length="0.05"/>
+			</geometry>
+		</collision>
+		
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="5.1458e-5" ixy="0.0" ixz= "0.0" iyy="5.1458e-5" iyz="0.0" izz="6.125e-5"/>
+		</inertial>
+	</link>
+
+	<joint name="roda_esquerda_joint" type="continuous">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="roda_esquerda"/>
+		<origin xyz="-0.2825 0.125 -0.05" rpy="-1.5708 0.0 0.0"/>
+	</joint>
+
+
+	<!-- ####################### VISUAL #####################-->
+    <!-- Capo -->
+    <link name="capo_link">
+		<visual>
+			<geometry>
+				<box size="0.01 0.3 0.1"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<material name="boca">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/relampago_boca.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+			    <box size="0.6 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+    <!-- Junta entre o capo e a base -->
+	<joint name="capo_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="capo_link"/>
+		<origin xyz="0.3 0.0 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Lateral esquerda -->
+    <link name="lat_esq_link">
+		<visual>
+			<geometry>
+				<box size="0.6 0.01 0.1"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<material name="lateral_esquerda">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/95_esq.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+			    <box size="0.6 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+    <!-- Junta entre o lado esquerdo e a base -->
+	<joint name="lat_esq_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="lat_esq_link"/>
+		<origin xyz="0.0 0.15 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Lateral direita -->
+    <link name="lat_dir_link">
+		<visual>
+			<geometry>
+				<box size="0.6 0.01 0.1"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<material name="lateral_direita">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/95_dir.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+			    <box size="0.6 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+    <!-- Junta entre o lado direito e a base -->
+	<joint name="lat_dir_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="lat_dir_link"/>
+		<origin xyz="0.0 -0.15 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Olhos -->
+    <link name="olhos_link">
+		<visual>
+			<geometry>
+				<box size="0.3 0.01 0.1"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<material name="olhos">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/olhos.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+			    <box size="0.3 0.01 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+    <!-- Junta entre os olhos e a cabeca -->
+	<joint name="olhos_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="cabeca_link"/>
+		<child link="olhos_link"/>
+		<origin xyz="0.0 0.15 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Janela Lateral -->
+    <link name="janela_dir_link">
+		<visual>
+			<geometry>
+				<box size="0.01 0.3 0.1"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<material name="janela_lateral">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/janela_lateral.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+			    <box size="0.01 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+    <!-- Junta entre a janela e a cabeca -->
+	<joint name="janela_dir_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="cabeca_link"/>
+		<child link="janela_dir_link"/>
+		<origin xyz="0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<link name="janela_esq_link">
+		<visual>
+			<geometry>
+				<box size="0.01 0.3 0.1"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<material name="janela_lateral1">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/janela_lateral1.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+			    <box size="0.01 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+    <!-- Junta entre a janela e a cabeca -->
+	<joint name="janela_esq_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="cabeca_link"/>
+		<child link="janela_esq_link"/>
+		<origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Janela traseira -->
+	<link name="janela_tras_link">
+		<visual>
+			<geometry>
+				<box size="0.3 0.01 0.1"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<material name="janela_tras">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/janela_tras.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+			    <box size="0.01 0.3 0.1"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+    <!-- Junta entre a janela e a cabeca -->
+	<joint name="janela_tras_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="cabeca_link"/>
+		<child link="janela_tras_link"/>
+		<origin xyz="0.0 -0.15 0.0" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- Logo do capo -->
+	<link name="logo_link">
+		<visual>
+			<geometry>
+				<box size="0.15 0.3 0.01"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+			<material name="logo_capo">
+				<texture filename="package://mcqueen/urdf/media/materials/textures/logo_capo.png" />
+			</material>
+		</visual>
+		<collision>
+			<geometry>
+			    <box size="0.15 0.3 0.01"/>
+			</geometry>
+		</collision>
+		<inertial>
+			<mass value="1.0"/>
+			<inertia ixx="0.015" ixy="0.0" ixz= "0.0" iyy="0.0375" iyz="0.0" izz="0.0375"/>
+		</inertial>
+	</link>
+
+    <!-- Junta entre a logo e a base -->
+	<joint name="logo_joint" type="fixed">
+		<axis xyz="0.0 0.0 1"/>
+		<parent link="base_link"/>
+		<child link="logo_link"/>
+		<origin xyz="0.225 0.0 0.05" rpy="0.0 0.0 0.0"/>
+	</joint>
+
+	<!-- ########################################################################### -->
+
+	<!-- Plugins -->
+
+	<gazebo>
+		<plugin name="differential_drive_controller"
+				filename="libgazebo_ros_diff_drive.so">
+
+		<legacyMode>false</legacyMode>
+		<leftJoint>roda_esquerda_joint</leftJoint>
+		<rightJoint>roda_direita_joint</rightJoint>
+		<robotBaseFrame>base_link</robotBaseFrame>
+		<wheelSeparation>0.25</wheelSeparation>
+		<wheelDiameter>0.07</wheelDiameter>
+		<publishWheelJointState>true</publishWheelJointState>
+
+		</plugin>
+	</gazebo>
+
+	<gazebo>
+		<plugin name="joint_state_publisher"
+				filename="libgazebo_ros_joint_state_publisher.so">
+		<jointName>frontal_joint,roda_frontal_dir_joint,roda_frontal_esq_joint</jointName>
+		</plugin>
+	</gazebo>
+
+</robot>
