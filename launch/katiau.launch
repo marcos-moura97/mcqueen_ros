@@ -1,6 +1,6 @@
 <launch>  
 
-    <param name="robot_description" textfile="$(find mcqueen)/urdf/relampago_marquinhos.urdf"/>
+    <param name="robot_description" textfile="$(find mcqueen_ros)/urdf/relampago_marquinhos.urdf"/>
     <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
     
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
